@@ -1,0 +1,102 @@
+{% load static %}
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'bootstrap-4.4.1/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .list-group-item.active {
+            background-color: gainsboro;
+            border-color: gainsboro;
+        }
+    </style>
+    <title>{% block 'title' %}Pyron|Converter{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'unitconvert' %}" style="color: darkviolet;">Unit Converter</a>
+        <ul class="navbar-nav mr-auto"></ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+    </nav>
+    <div class="container-fluid mt-4 ">
+        <div class="row">
+            <div class="col-md-4 col-lg-3 mx-lg-5 ">
+                <h2 class="text-center" style="color:orange">Measurement Article List </h2>
+                <ul class="list-group text-center">
+                    {% for ms in measurements %}
+                    <li class="list-group-item">
+                        <a href="{% url 'measurement_view' %}?measurement={{ ms.pk }}">{{ms.name}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-4 col-lg-3 mx-lg-5 mb-5">
+                <h2 class="text-center" style="color: orange;">Unit Article List </h2>
+                <ul class="list-group text-center">
+                    {% for unit in units %}
+                    <li class="list-group-item">
+
+                        <a href="{% url 'unit_view' %}?unit={{ unit.pk }}">{{ unit.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-4 col-lg-3 mx-lg-4 mb-5">
+                <h2 class="text-center" style="color: orange;"> Convert Measurement</h2>
+                <ul class="list-group text-center">
+                    {% for measurement in measurements %}
+                    <li class="list-group-item">
+                        <a
+                            href="{% url 'unitconvert' %}?measurement_type={{ measurement.pk }}">{{ measurement.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+
+
+
+
+    <script src=" https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+        </script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    {% block 'extra_js' %}{% endblock %}
+    <script>
+        $(document).ready(function () {
+            $("a").hover(function () {
+                $(this).css("color", "red");
+            }, function () {
+                $(this).css("color", "blue");
+            });
+
+
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>

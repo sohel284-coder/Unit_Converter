@@ -1,0 +1,225 @@
+{% load static %}
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="{% static 'bootstrap-4.4.1/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .list-group-item.active {
+            background-color: gainsboro;
+            border-color: gainsboro;
+        }
+    </style>
+    <title>{% block 'title' %}Unit Converter{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#" style="color: darkviolet;">Unit Converter</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}" style="color:darkviolet;">Home <span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+    </nav>
+    <div class="container-fluied m-sm-2 p-sm-2">
+        <div class="row">
+            <div class="col-md-2 col-lg-2 mt-4 mb-sm-3 mb-md-3 mb-lg-3 mx-lg-5 px-lg-5 mx-md-3 px-md-3">
+                <h5 style="color:blueviolet; text-align: center;">Measurement</h5>
+                <div class="list-group medium mb-3 bg-light">
+                    {% for measurement in measurements %}
+                    <a href="{% url 'unitconvert' %}?measurement_type={{ measurement.pk }}"
+                        class="py-2 list-group-item {% if measurement.id == conversion.from_unit.measurement_type_id %}active disabled{% endif %}">{{ measurement.name }}</a>
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 my-3 mx-sm-3 ">
+                {% block 'content' %}{% endblock %}
+            </div>
+
+            <div class="col-md-2 col-lg-2 my-4 ">
+                <h5 style="color: blueviolet; text-align: center;">Unit Converter</h5>
+                <ul class="list-group medium">
+                    {% for converter in converters %}
+                    <li class="list-group-item py-1">
+                        <a href="{% url 'converter' converter.name %}">
+                            {{ converter.converter_name}}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="page-footer font-small mdb-color lighten-3 pt-4 mt-4"
+        style="background-color:skyblue; color:rebeccapurple;">
+
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left">
+
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 mr-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Content -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Footer Content</h5>
+                    <p>Here you can use rows and columns to organize your footer content.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit amet numquam iure provident
+                        voluptate
+                        esse
+                        quasi, veritatis totam voluptas nostrum.</p>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Links -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">About</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <a href="#!">PROJECTS</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">ABOUT US</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">BLOG</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">AWARDS</a>
+                            </p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Contact details -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Address</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <i class="fas fa-home mr-3"></i> DHAKA, 1212, BANGLADESH</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-envelope mr-3"></i> PyronLab.com</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 text-center mx-auto my-4">
+
+                    <!-- Social buttons -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
+
+                    <!-- Facebook -->
+                    <a type="button" class="btn-floating btn-fb">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <!-- Twitter -->
+                    <a type="button" class="btn-floating btn-tw">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <!-- Google +-->
+                    <a type="button" class="btn-floating btn-gplus">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <!-- Dribbble -->
+                    <a type="button" class="btn-floating btn-dribbble">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+
+        </div>
+        <!-- Footer Links -->
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="">PyronLab.com</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+
+
+
+
+
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    {% block 'extra_js' %} {% endblock %}
+
+
+
+
+
+
+</body>
+
+</html>

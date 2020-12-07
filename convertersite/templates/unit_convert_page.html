@@ -1,0 +1,473 @@
+{% extends 'base.html' %}
+{% block 'content' %}
+{% if conversion %}
+<div class="row">
+    <div class=" col-md-6 col-lg-8">
+        <h2 class="pb-1 mt-3 text-center" style="color:blue;">Convert <span
+                class="unit">{{conversion.from_unit.name}}</span> to <span
+                class="unit">{{conversion.to_unit.name}}</span>
+        </h2>
+    </div>
+
+</div>
+<div class="row ">
+    <div class="col-md-6 col-lg-8">
+        <div class="unit-input">
+            <div class="input-group">
+                <input type="text" class="form-control unit-input" value="" id="inputData"
+                    data-rate="{{conversion.rate}}" />
+                <input type="hidden" name="" id="inputHidden" value="{{conversion.rate}}" disabled>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">{{conversion.from_unit.symbol_name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-lg-8"></div>
+    <div class="col-md-3 col-lg-2">
+        <button type="button" class="btn btn-success swap ">Swap</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-lg-8 ">
+        <div class="unit-input">
+            <div class="input-group">
+                <input type="text" class="form-control unit-input" value="" aria-describedby="basic-addon3"
+                    id="outputData" data-rate="{{ conversion.inverse_rate }}" />
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon3">{{conversion.to_unit.symbol_name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-lg-8 mt-3">
+        <button id="btnCalculate" type="button" class="btn btn-primary btn-md btn-block"
+            onclick="UnitCalculate()">Calculate</button>
+    </div>
+</div>
+
+<p>&nbsp;</p>
+
+
+<div class="row" id="resultDiv">
+    <div class="col-md-6 col-lg-8 mb-5">
+        <div class="col">
+            <h2 class="text-center" style="color: rgb(155, 34, 167);"> Solution </h2>
+        </div>
+        <div class="" style="border: solid 2px blue; background-color: white;">
+            <div class=" mt-1 mr-1 text-right">
+                <button id="btnCopy" style="border: none; background: none;">Copy</button>
+            </div>
+            <div class="mb-5">
+                <div class="ml-4 mt-3 mb-2" id="copyTarget">
+
+                    1<span>{{ conversion.from_unit.symbol_name }}</span> =
+                    <span>{{conversion.rate}}{{conversion.to_unit.symbol_name}}</span> <br>
+                    <span id="rateOutput1"></span><span>{{conversion.from_unit.symbol_name}}</span> = <span
+                        id="rateOutput2"></span> *
+                    <span>{{conversion.rate}}{{conversion.to_unit.symbol_name}}</span>
+                    <br>
+                    &emsp;&emsp;&ensp; = <span id="result"></span><span>{{conversion.to_unit.symbol_name}}</span>
+                </div>
+            </div>
+        </div>
+        <div id="pasteTarget" contenteditable="true"></div>
+    </div>
+</div>
+
+
+<section>
+    <div class="row">
+        <div class="col-md-8 col-lg-9 my-3">
+
+            <h2 class="my-2" style="color: rgb(155, 34, 167);"> How to convert
+                {{ conversion.from_unit.name }}({{ conversion.from_unit.symbol_name }}) to
+                {{ conversion.to_unit.name }} ({{ conversion.to_unit.symbol_name }}) </h2>
+            1<span> {{ conversion.from_unit.name }}</span> is equal to <span>{{conversion.rate}}
+                {{conversion.to_unit.name}}</span><br>
+            1<span>{{ conversion.from_unit.symbol_name }}</span> =<span>{{conversion.rate}}
+                {{conversion.to_unit.symbol_name}}</span> <br>
+            1 <span>{{ conversion.to_unit.name }} ({{conversion.to_unit.symbol_name}}) is equal to 1
+                {{ conversion.from_unit.name }} ({{ conversion.from_unit.symbol_name }}) multiply {{ conversion.rate }}
+                times </span><br>
+            1<span>{{ conversion.to_unit.symbol_name }}</span> = 1 <span>{{conversion.from_unit.symbol_name}}</span> *
+            <span>{{conversion.rate}}</span> <br>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-lg-9">
+            <h2 style="color: rgb(155, 34, 167);">Example</h2>
+            <h6 style="font-weight: bold;"> Convert 5 <span>{{ conversion.from_unit.name}} to
+                    {{ conversion.to_unit.name }}: </span>
+            </h6>
+            <span>{{ conversion.to_unit.symbol_name }} = 5 {{ conversion.from_unit.symbol_name }} *
+                {{ conversion.rate }} </span> 
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+    <div class="row">
+        <div class="col-md-6 col-lg-8 my-5">
+            <div class="card">
+                <div class="card-header p-2">
+                    <h5>People also ask </h5>
+                </div>
+            </div>
+            <div class="accordion" id="faqExample">
+                <div class="card">
+                    <div class="card-header p-2" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                Q: What is {{ conversion.from_unit.name }}?
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqExample">
+                        <div class="card-body">
+                            <b>Answer:</b>
+                            <p>{{ conversion.from_unit.description }} Read more at <a
+                                    href="{{ conversion.from_unit.wiki_link }}">PyronArticle Page</a> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Q: What is {{ conversion.to_unit.name }}?
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqExample">
+                        <div class="card-body">
+                            <p>{{ conversion.to_unit.description }} Read more at <a
+                                    href="{{ conversion.to_unit.wiki_link }}">PyronArticle Page</a> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Q. What is another question?
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqExample">
+                        <div class="card-body">
+                            The answer to the question can go here.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Q. What is the next question?
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqExample">
+                        <div class="card-body">
+                            The answer to this question can go here. This FAQ example can contain all the Q/A that is
+                            needed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="row">
+        <div class="col-md-6 col-lg-8 my-5">
+            <h2 style="color: rgb(155, 34, 167); text-align: center;"> {{ conversion.converter_name }} conversion table:
+            </h2>
+            <table class="table table-hover ">
+                <thead class="thead-light" style="border: 1px solid lightgrey;">
+                    <tr>
+                        <th scope="col-3">{{ conversion.from_unit.name }}</th>
+                        <th scope="col-3">{{ conversion.to_unit.name }}</th>
+
+                    </tr>
+                </thead>
+                <tbody style="color: blue; border: 1px solid lightgrey;">
+                    <tr>
+                        <td id="tinput1"></td>
+                        <td id="toutput1"></td>
+                    </tr>
+                    <tr>
+
+                        <td id="tinput2"></td>
+                        <td id="toutput2"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput3"></td>
+                        <td id="toutput3"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput4"></td>
+                        <td id="toutput4"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput5"></td>
+                        <td id="toutput5"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput6"></td>
+                        <td id="toutput6"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput7"></td>
+                        <td id="toutput7"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput8"></td>
+                        <td id="toutput8"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput9"></td>
+                        <td id="toutput9"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput10"></td>
+                        <td id="toutput10"></td>
+                    </tr>
+
+                    <tr>
+                        <td id="tinput11"></td>
+                        <td id="toutput11"></td>
+                    </tr>
+
+                    <tr>
+                        <td id="tinput12"></td>
+                        <td id="toutput12"></td>
+                    </tr>
+
+                    <tr>
+                        <td id="tinput13"></td>
+                        <td id="toutput13"></td>
+                    </tr>
+
+                    <tr>
+                        <td id="tinput14"></td>
+                        <td id="toutput14"></td>
+                    </tr>
+
+                    <tr>
+                        <td id="tinput15"></td>
+                        <td id="toutput15"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput16"></td>
+                        <td id="toutput16"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput17"></td>
+                        <td id="toutput17"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput18"></td>
+                        <td id="toutput18"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput19"></td>
+                        <td id="toutput19"></td>
+                    </tr>
+                    <tr>
+                        <td id="tinput20"></td>
+                        <td id="toutput20"></td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</section>
+
+
+
+
+
+{% endif %}
+{% endblock %}
+{% block 'extra_js' %}
+
+<script type="text/javascript">
+
+    $.fn.swap = function (elem) {
+        elem = elem.jquery ? elem : $(elem);
+        return this.each(function () {
+            $(document.createTextNode('')).insertBefore(this).before(elem.before(this)).remove();
+        });
+    };
+
+    function UnitCalculate() {
+
+        num1 = document.getElementById("inputData").value;
+        rate = document.getElementById("inputHidden").value;
+        val = document.getElementById("outputData").value = num1 * rate;
+        document.getElementById("rateOutput1").innerHTML = num1;
+        document.getElementById("rateOutput2").innerHTML = num1;
+        document.getElementById("result").innerHTML = val;
+
+    }
+
+    document.getElementById("btnCopy").addEventListener("click", function () {
+        myFunction(document.getElementById("copyTarget"));
+    });
+
+    function myFunction(element_id) {
+        element_id.setAttribute("contentEditable", true);
+        element_id.setAttribute("onfocus", "document.execCommand('selectAll', false, null)");
+        element_id.focus();
+        document.execCommand("copy");
+        element_id.removeAttribute("contentEditable");
+
+    }
+
+    $(document).ready(function () {
+        $('button.swap').click(function () {
+            // swap title names
+            var unitTitles = $('span.unit');
+            var tempLabel = $(unitTitles[0]).text();
+            $(unitTitles[0]).text($(unitTitles[1]).text());
+            $(unitTitles[1]).text(tempLabel);
+
+            // swap input fields
+            var unitInputDivs = $('div.unit-input');
+            var inputGroup1 = $(unitInputDivs[0]).find('div.input-group').clone();
+            var inputGroup2 = $(unitInputDivs[1]).find('div.input-group').clone();
+
+            $('div.input-group').remove();
+            $(unitInputDivs[0]).append(inputGroup2);
+            $(unitInputDivs[1]).append(inputGroup1);
+        });
+
+        $("#resultDiv").hide();
+
+        $("#btnCalculate").click(function () {
+            $("#resultDiv").show();
+        });
+
+
+    });
+
+    var x = document.getElementById("tinput1").innerHTML = 0.01;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput1").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput2").innerHTML = 0.1;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput2").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput3").innerHTML = 0.2;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput3").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput4").innerHTML = 0.3;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput4").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput5").innerHTML = 0.4;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput5").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput6").innerHTML = 0.5;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput6").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput7").innerHTML = 0.6;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput7").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput8").innerHTML = 0.7;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput8").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput9").innerHTML = 0.8;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput9").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput10").innerHTML = 0.9;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput10").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput11").innerHTML = 1;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput11").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput12").innerHTML = 10;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput12").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput13").innerHTML = 20;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput13").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput14").innerHTML = 30;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput14").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput15").innerHTML = 40;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput15").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput16").innerHTML = 50;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput16").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput17").innerHTML = 60;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput17").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput18").innerHTML = 70;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput18").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput19").innerHTML = 80;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput19").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+    var x = document.getElementById("tinput20").innerHTML = 90;
+    var y = document.getElementById("inputHidden").value;
+    document.getElementById("toutput20").innerHTML = Math.floor((x * y) * 1000 )/1000;
+
+
+
+
+
+
+
+
+
+
+
+</script>
+{% endblock %}
