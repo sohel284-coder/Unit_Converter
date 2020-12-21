@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class Measurement(models.Model):
@@ -15,12 +16,9 @@ class Unit(models.Model):
     measurement_type = models.ForeignKey(Measurement, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000, null=True, )
     wiki_link = models.URLField(null=True, )
-   
+
     def __str__(self):
         return "%s (%s)" % (self.name, self.symbol_name)
-
-
-
 
 
 class Conversion(models.Model):
@@ -36,7 +34,7 @@ class Conversion(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['from_unit', 'to_unit'], name='uniq_from_to_units'),
-            models.UniqueConstraint(fields=['name'], name='uniq_converter_name')
+            models.UniqueConstraint(fields=['name'], name='unit_converter_name')
         ]
 
 
@@ -50,12 +48,13 @@ class MeasurementArticle(models.Model):
     def __str__(self):
         return self.measurement_title
 
+
 class UnitArticle(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='unit_name', null=True)
     unit_description = models.TextField()
     unit_title = models.CharField(max_length=100, )
     unit_article_link = models.URLField(null=True, )
-    unit_img = models.ImageField(upload_to="unit" , blank=True, null=True,)
+    unit_img = models.ImageField(upload_to="unit", blank=True, null=True, )
 
     def __str__(self):
-        return self.unit_title        
+        return self.unit_title

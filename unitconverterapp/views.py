@@ -23,6 +23,7 @@ def measurement_view(request):
 
     measurement = MeasurementArticle.objects.filter(measurement=measurement).get(measurement_id=measurement_id)
     measurements = Measurement.objects.all()
+   
     
     return render(request, 'measurements_article.html', {'measurement':measurement, 'measurements':measurements, })   
 
@@ -80,9 +81,10 @@ def unitconvert(request, converter_name=None):
         'converters': converters,
         'conversion': converter,
         'measurements': measurements,
-        
-        
-    })   
+    })
+
+
+    
           
 
     
